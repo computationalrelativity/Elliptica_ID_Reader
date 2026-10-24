@@ -178,9 +178,9 @@ evo_alpha[ijk]*u0[ijk]);
   }
   else
   {
-   evo_grhd_rho[ijk]  = eos->rest_mass_density(eos);
+   evo_grhd_rho[ijk]  = eos->export_rest_mass_density(eos);
    evo_grhd_p[ijk]    = eos->pressure(eos);
-   evo_grhd_epsl[ijk] = eos->specific_internal_energy(eos);
+   evo_grhd_epsl[ijk] = eos->export_specific_internal_energy(eos);
   }
   }
   free_physics(ns);

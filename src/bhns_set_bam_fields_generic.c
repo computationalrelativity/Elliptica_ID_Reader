@@ -178,9 +178,9 @@ enthalpy[ijk]*u0[ijk]);
   }
   else
   {
-   bam_grhd_rho[ijk]  = eos->rest_mass_density(eos);
+   bam_grhd_rho[ijk]  = eos->export_rest_mass_density(eos);
    bam_grhd_p[ijk]    = eos->pressure(eos);
-   bam_grhd_epsl[ijk] = eos->specific_internal_energy(eos);
+   bam_grhd_epsl[ijk] = eos->export_specific_internal_energy(eos);
   }
   }
   free_physics(ns);
