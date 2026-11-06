@@ -6,6 +6,7 @@
 /* exporting initial data for evolution codes */
 
 #include "bhbh_export_id.h"
+#include "physics_adm_lib.h"
 
 
 /* export ID for a general evolution code */
@@ -92,6 +93,7 @@ void bhbh_export_id_generic(void *vp)
   // EVO needs this!? (this param should be set in the reader) */
   // Psets(CHECKPOINT_SET_PARAM_ "ADM_B1I_form","zero");
   physics(bhbh,ADM_UPDATE_Kij);/* need this for bhbh_set_evo_fields_generic */
+  adm_export_inertial_shift(bhbh);/* after Kij, before filling: beta = B0 */
 
   /* fill BH1 */
   Physics_T *const bh1  = init_physics(bhbh,BH1);

@@ -10,6 +10,7 @@ int adm_main(struct PHYSICS_T *const phys);
 void adm_update_beta_U0(struct PATCH_T *const patch);
 void adm_update_beta_U1(struct PATCH_T *const patch);
 void adm_update_beta_U2(struct PATCH_T *const patch);
+void adm_export_inertial_shift(struct PHYSICS_T *const phys);
 
 
 #endif

@@ -6,6 +6,7 @@
 /* exporting initial data for evolution codes */
 
 #include "bhns_export_id.h"
+#include "physics_adm_lib.h"
 
 
 /* exporting initial data for bam.
@@ -34,6 +35,7 @@ void bhns_export_id_bam_generic(void *vp)
   points->grid = bhns->grid;
   
   physics(bhns,ADM_UPDATE_Kij);/* before filling */
+  adm_export_inertial_shift(bhns);/* after Kij, before filling */
   /* fill BH */
   Physics_T *const bh  = init_physics(bhns,BH);
   Psets("BH_filler_method",Pgets(P_ BAM_"filler_method"));
@@ -204,6 +206,7 @@ void bhns_export_id_generic(void *vp)
   // EVO needs this!? (it will be set in the reader) */
   // Psets(CHECKPOINT_SET_PARAM_ "ADM_B1I_form","zero");
   physics(bhns,ADM_UPDATE_Kij);/* before filling */
+  adm_export_inertial_shift(bhns);/* after Kij, before filling */
   
   /* fill BH */
   Physics_T *const bh  = init_physics(bhns,BH);
@@ -335,6 +338,7 @@ void bhns_export_id_generic_mt_safe(void *vp)
   // EVO needs this!? (it will be set in the reader) */
   // Psets(CHECKPOINT_SET_PARAM_ "ADM_B1I_form","zero");
   physics(bhns,ADM_UPDATE_Kij);/* before filling */
+  adm_export_inertial_shift(bhns);/* after Kij, before filling */
   
   /* fill BH */
   Physics_T *const bh  = init_physics(bhns,BH);

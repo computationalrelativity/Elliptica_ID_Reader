@@ -6,6 +6,7 @@
 /* exporting initial data for evolution codes */
 
 #include "nsns_export_id.h"
+#include "physics_adm_lib.h"
 
 
 /* export ID for a general evolution code */
@@ -100,6 +101,7 @@ void nsns_export_id_generic(void *vp)
   // EVO needs this!? (this param should be set in the reader) */
   // Psets(CHECKPOINT_SET_PARAM_ "ADM_B1I_form","zero");
   physics(nsns,ADM_UPDATE_Kij);/* need this for nsns_set_evo_fields_generic */
+  adm_export_inertial_shift(nsns);/* after Kij: beta = B0 (no-op for ADM_B1I_form = zero) */
   
   /* set bam fields based on initial data to be usable for evo */
   nsns_set_evo_fields_generic(nsns->grid);

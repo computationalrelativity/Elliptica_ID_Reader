@@ -426,3 +426,35 @@ void adm_update_B1I_zero(Patch_T *const patch,void *params)
   UNUSED(params);
 }
 
+
+/* Export the shift in the inertial frame: beta^i = B0^i, on all patches.
+// Call AFTER ADM_UPDATE_Kij and BEFORE any filler/export. K_ij must be built
+// from the full shift beta = B0 + B1 of the checkpoint's ADM_B1I_form
+// (inspiral, boost), since AConf^{ij} = (L~beta)^{ij}/(2 alpha~) assumes
+// d_t g~_ij = 0, which only holds in the frame the data were solved in
+// (corotating / comoving). Rebuilding K with B1 dropped (ADM_B1I_form = zero)
+// is harmless only if B1 is a conformal Killing vector of g~: true for
+// g~ = delta, false for Kerr-Schild free data. */
+void adm_export_inertial_shift(Physics_T *const phys)
+{
+  Grid_T *const grid = phys->grid;
+  Uint p;
+  
+  OpenMP_Patch_Pragma(omp parallel for)
+  for (p = 0; p < grid->np; ++p)
+  {
+    Patch_T *const patch = grid->patch[p];
+    READ_v(B0_U0)
+    READ_v(B0_U1)
+    READ_v(B0_U2)
+    REALLOC_v_WRITE_v(beta_U0)
+    REALLOC_v_WRITE_v(beta_U1)
+    REALLOC_v_WRITE_v(beta_U2)
+    FOR_ALL_ijk
+    {
+      beta_U0[ijk] = B0_U0[ijk];
+      beta_U1[ijk] = B0_U1[ijk];
+      beta_U2[ijk] = B0_U2[ijk];
+    }
+  }
+}
